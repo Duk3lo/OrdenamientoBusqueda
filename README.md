@@ -44,6 +44,22 @@ El proyecto sigue la estructura definida, separando las responsabilidades:
 
 ---
 
+
+## Ingreso de Datos
+
+![Ingreso](assets/01_IngresoDatos.png)
+
+## Ordenamientos de Datos
+
+![a](assets/02a_Ordenamiento.png)
+![b](assets/02b_Ordenamiento.png)
+![c](assets/02c_Ordenamiento.png)
+![d](assets/02d_Ordenamiento.png)
+
+## Busqueda Binaria
+
+![Binaria](assets/03_BusquedaBinaria.png)
+
 ## 🚀 Salida del Programa
 
-![Salida](assets/ordenamientoYBusquedaPersona.png)
+![Salida](assets/04_Programa.png)
