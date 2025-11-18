@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 public class Controller {
     private View view;
-    private List<Person> persons;
+    private Person[] persons; 
     private SortingMethods sortingMethods;
     private SearchMethods searchMethods;
 
@@ -18,12 +18,14 @@ public class Controller {
         this.view = view;
         this.sortingMethods = sortingMethods;
         this.searchMethods = searchMethods;
-        this.persons = new ArrayList<>();
+        this.persons = new Person[0];
     }
 
     public void addPerson(Person p) {
         if (p != null) {
-            this.persons.add(p);
+            List<Person> personList = new ArrayList<>(Arrays.asList(this.persons));
+            personList.add(p);
+            this.persons = personList.toArray(new Person[0]);
             currentSortCriterion = 0;
         }
     }
@@ -39,19 +41,27 @@ public class Controller {
             return;
         }
 
+        Person[] newPersons = new Person[n];
         for (int i = 0; i < n; i++) {
             System.out.println("--- Ingresando Persona #" + (i + 1) + " ---");
-            addPerson(view.inputPerson());
+            newPersons[i] = view.inputPerson();
         }
+
+        List<Person> currentList = new ArrayList<>(Arrays.asList(this.persons));
+        currentList.addAll(Arrays.asList(newPersons));
+        this.persons = currentList.toArray(new Person[0]);
+        currentSortCriterion = 0;
+
         System.out.println(n + " persona(s) ingresada(s) correctamente.");
     }
 
     public void sortPersons() {
-        if (persons.isEmpty()) {
+        if (persons.length == 0) {
             System.out.println("No hay personas para ordenar.");
             return;
         }
-        Person[] arr = persons.toArray(new Person[0]);
+        
+        Person[] arr = this.persons; 
         int option = view.selectSortingMethod();
 
         switch (option) {
@@ -75,12 +85,12 @@ public class Controller {
                 System.out.println("No se realizó el ordenamiento.");
                 return;
         }
-        this.persons = new ArrayList<>(Arrays.asList(arr));
+        
         view.displayPersons(arr);
     }
 
     public void searchPerson() {
-        if (persons.isEmpty()) {
+        if (persons.length == 0) {
             System.out.println("No hay personas para buscar.");
             return;
         }
@@ -89,7 +99,7 @@ public class Controller {
         if (criterion < 1)
             return;
 
-        Person[] arr = persons.toArray(new Person[0]);
+        Person[] arr = this.persons;
         boolean isOrderedCorrectly = false;
 
         if (criterion == 1) {
@@ -110,7 +120,6 @@ public class Controller {
                 sortingMethods.sortByNameWithInsertion(arr);
                 currentSortCriterion = 2;
             }
-            this.persons = new ArrayList<>(Arrays.asList(arr));
         }
 
         String searchValue = view.inputSearchValue(criterion);
@@ -145,7 +154,7 @@ public class Controller {
                     searchPerson();
                     break;
                 case 4:
-                    view.displayPersons(persons.toArray(new Person[0]));
+                    view.displayPersons(persons);
                     break;
                 case 0:
                     System.out.println("Saliendo del programa. ¡Hasta luego!");
